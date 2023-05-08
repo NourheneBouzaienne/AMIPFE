@@ -15,6 +15,25 @@ public class SignupRequest {
     private String typePers;
     private String password;
     private String numTel;
+    private boolean enabled;
+
+    private String activationCode;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
 
     public String getNumTel() {
         return numTel;
@@ -26,7 +45,9 @@ public class SignupRequest {
 
     private Set<String> role;
 
-    public SignupRequest(String name,String username, String email, String adresse, String typeIDNT, String typePers, Set<String> role,String numTel,String password) {
+    public SignupRequest(String activationCode,boolean enabled,String name,String username, String email, String adresse, String typeIDNT, String typePers, Set<String> role,String numTel,String password) {
+        this.activationCode = activationCode;
+        this.enabled = enabled;
         this.username = username;
         this.name = name;
         this.email = email;

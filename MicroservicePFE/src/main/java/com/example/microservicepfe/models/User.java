@@ -1,7 +1,10 @@
 package com.example.microservicepfe.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,6 +33,10 @@ public class User {
     private String name;
     private String numTel;
 
+    private boolean enabled;
+
+    private String activationCode;
+
     public String getNumTel() {
         return numTel;
     }
@@ -46,12 +53,24 @@ public class User {
         this.name = name;
     }
 
+    public List<Demande> getDemandes() {
+        return demandes;
+    }
+
+    public void setDemandes(List<Demande> demandes) {
+        this.demandes = demandes;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Demande> demandes;
     public Long getId() {
         return id;
     }
@@ -111,7 +130,26 @@ public class User {
     public User() {
     }
 
-    public User(String name,String username, String email, String adresse, String typeIDNT, String typePers,String numTel,String password) {
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public User(String activationCode,boolean enabled,String name, String username, String email, String adresse, String typeIDNT, String typePers, String numTel, String password) {
+        this.activationCode = activationCode;
+        this.enabled = enabled;
+
         this.adresse = adresse;
         this.name=name;
         this.email = email;
@@ -121,6 +159,8 @@ public class User {
         this.username =  username;
         this.numTel=numTel;
     }
+
+
 
     public Set<Role> getRoles() {
         return roles;
