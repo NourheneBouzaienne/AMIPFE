@@ -3,6 +3,7 @@ package com.example.microservicepfe.proxies;
 import com.example.microservicepfe.beans.Contrat;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,4 +18,10 @@ public interface MicroserviceContratProxy {
     /*@GetMapping( value = "/Contrat/{id}")
     Contrat recupererUnContrat(@PathVariable("id") int id);
 */
+
+    @GetMapping(value = "Contrat/listContratsClients")
+     List<Contrat> getContratsClient(@RequestParam String CIN, @RequestParam String numCNT) ;
+
+
+
 }

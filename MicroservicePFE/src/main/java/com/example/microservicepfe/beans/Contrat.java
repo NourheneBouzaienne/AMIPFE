@@ -12,10 +12,23 @@ public class Contrat<S, O> {
     private Long IDCLT;
     private Long IDDELEGA;
 
+    private String CIN;
+
+
+    @JsonProperty("CIN")
+    public String getCIN() {
+        return CIN;
+    }
+    @JsonProperty("CIN")
+    public void setCIN(String CIN) {
+        this.CIN = CIN;
+    }
+
     public Contrat() {
     }
 
-    public Contrat(String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, Date DEBCNT, Date FINCNT, String SITUAT) {
+    public Contrat( String CIN ,String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT) {
+        this.CIN = CIN;
         this.NUMCNT = NUMCNT;
         this.CODPROD = CODPROD;
         this.FORMCNT = FORMCNT;
@@ -89,25 +102,25 @@ public class Contrat<S, O> {
 
 
     @JsonProperty("DEBCNT")
-    public Date getDEBCNT() {
+    public String getDEBCNT() {
         return DEBCNT;
     }
 
 
     @JsonProperty("DEBCNT")
-    public void setDEBCNT(Date DEBCNT) {
+    public void setDEBCNT(String DEBCNT) {
         this.DEBCNT = DEBCNT;
     }
 
 
     @JsonProperty("FINCNT")
-    public Date getFINCNT() {
+    public String getFINCNT() {
         return FINCNT;
     }
 
 
     @JsonProperty("FINCNT")
-    public void setFINCNT(Date FINCNT) {
+    public void setFINCNT(String FINCNT) {
         this.FINCNT = FINCNT;
     }
 
@@ -122,8 +135,8 @@ public class Contrat<S, O> {
         this.SITUAT = SITUAT;
     }
 
-    private Date DEBCNT;
-    private Date FINCNT;
+    private String DEBCNT;
+    private String FINCNT;
 
     private String SITUAT;
 

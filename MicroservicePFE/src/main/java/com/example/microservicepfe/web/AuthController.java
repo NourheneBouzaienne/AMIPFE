@@ -2,6 +2,7 @@ package com.example.microservicepfe.web;
 
 import com.example.microservicepfe.dao.RoleRepository;
 import com.example.microservicepfe.dao.UserRepository;
+import com.example.microservicepfe.models.Client;
 import com.example.microservicepfe.models.ERole;
 import com.example.microservicepfe.models.Role;
 import com.example.microservicepfe.models.User;
@@ -80,7 +81,7 @@ public class AuthController {
     }
 
     @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-    @PostMapping("/signup")
+    @PostMapping("/signupClient")
     public ResponseEntity<?> registerUser(@Validated @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -96,7 +97,7 @@ public class AuthController {
 
         String activationCode = UUID.randomUUID().toString();
         // Create new user's account
-        User user = new User(
+        User user = new Client(
                 signUpRequest.getActivationCode(),
                 signUpRequest.isEnabled(),
                  signUpRequest.getName(),
@@ -128,10 +129,10 @@ public class AuthController {
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_GESTIONNAIRE)
+                    case "gestionnaire":
+                        Role gestionnaireRole = roleRepository.findByName(ERole.ROLE_GESTIONNAIRE)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(gestionnaireRole);
 
                         break;
                     default:

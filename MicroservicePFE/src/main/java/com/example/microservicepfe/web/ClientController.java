@@ -5,15 +5,18 @@ import com.example.microservicepfe.beans.Contrat;
 import com.example.microservicepfe.dao.UserRepository;
 import com.example.microservicepfe.models.User;
 import com.example.microservicepfe.proxies.MicroserviceContratProxy;
+import com.example.microservicepfe.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth/Client")
 public class ClientController {
@@ -27,6 +30,13 @@ public class ClientController {
     @RequestMapping("/Contrats")
     List<Contrat>  contrat (){List<Contrat> contrats =  contratsProxy.listeDesContrats();
         return  contrats;
+    }
+    @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+    @GetMapping("/ContratsClient")
+    List<Contrat> getContratsClient( @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam String numCNT) {
+        String CIN = userDetails.getUsername(); // Récupération CIN  de l'utilisateur
+        List<Contrat> contratsClient =   contratsProxy.getContratsClient(CIN, numCNT) ;
+        return contratsClient ;
     }
 
     @GetMapping("/profile")
@@ -59,10 +69,10 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        user.setAdresse(updatedUser.getAdresse());
+        //user.setAdresse(updatedUser.getAdresse());
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
-        user.setNumTel(updatedUser.getNumTel());
+        //user.setNumTel(updatedUser.getNumTel());
         user.setUsername(updatedUser.getUsername());
 
 

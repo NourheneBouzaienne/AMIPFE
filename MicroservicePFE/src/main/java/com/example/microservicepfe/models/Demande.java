@@ -44,7 +44,6 @@ public class Demande {
     private User user;
 
     public Demande(String object, String description, Date dateCreation) {
-
         this.object = object;
         this.description = description;
         this.dateCreation = dateCreation;

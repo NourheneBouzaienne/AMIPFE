@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(	name = "user",
+@Table(	name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,23 +29,17 @@ public class User {
 
     private String password;
 
-    private String adresse;
-    private String typeIDNT;
-    private String typePers;
+
+
     private String name;
-    private String numTel;
 
     private boolean enabled;
 
     private String activationCode;
 
-    public String getNumTel() {
-        return numTel;
-    }
 
-    public void setNumTel(String numTel) {
-        this.numTel = numTel;
-    }
+
+
 
     public String getName() {
         return name;
@@ -103,29 +99,7 @@ public class User {
         this.password = password;
     }
 
-    public String getAdresse() {
-        return adresse;
-    }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getTypeIDNT() {
-        return typeIDNT;
-    }
-
-    public void setTypeIDNT(String typeIDNT) {
-        this.typeIDNT = typeIDNT;
-    }
-
-    public String getTypePers() {
-        return typePers;
-    }
-
-    public void setTypePers(String typePers) {
-        this.typePers = typePers;
-    }
 
     public User() {
     }
@@ -146,18 +120,13 @@ public class User {
         this.activationCode = activationCode;
     }
 
-    public User(String activationCode,boolean enabled,String name, String username, String email, String adresse, String typeIDNT, String typePers, String numTel, String password) {
+    public User(String activationCode,boolean enabled,String name, String username, String email, String password) {
         this.activationCode = activationCode;
         this.enabled = enabled;
-
-        this.adresse = adresse;
         this.name=name;
         this.email = email;
         this.password = password;
-        this.typeIDNT = typeIDNT;
-        this.typePers = typePers;
         this.username =  username;
-        this.numTel=numTel;
     }
 
 
