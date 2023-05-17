@@ -22,9 +22,10 @@ public class ContratDAO {
     public List<Map<String, Object>> findByIDAndNUMCNT(String cin , String numCNT) {
         return jdbcTemplate.queryForList(
                 "SELECT  *  " +
-                        "FROM ISAMMDATA.PRTB001,ISAMMDATA.PETB01 " +
+                        "FROM ISAMMDATA.PRTB001,ISAMMDATA.PETB01,ISAMMDATA.PR002 " +
                         "WHERE ISAMMDATA.PRTB001.NATCLT = ISAMMDATA.PETB01.CNAT" +
                         "          AND ISAMMDATA.PRTB001.IDCLT = ISAMMDATA.PETB01.NUMPERS" +
+                        "          AND ISAMMDATA.PRTB001.CODPROD = ISAMMDATA.PR002.CODPROD"+
                         "          AND  ISAMMDATA.PRTB001.SITUAT IN ('E','R')"+
                         "          AND ISAMMDATA.PETB01.ID = ?" +
                         "          AND ISAMMDATA.PRTB001.NUMCNT = ?" , cin , numCNT

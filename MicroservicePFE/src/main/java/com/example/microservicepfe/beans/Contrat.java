@@ -13,7 +13,20 @@ public class Contrat<S, O> {
     private Long IDDELEGA;
 
     private String CIN;
+    private String LIBPRDT;
 
+
+    @JsonProperty("LIBPRDT")
+
+    public String getLIBPRDT() {
+        return LIBPRDT;
+    }
+
+    @JsonProperty("LIBPRDT")
+
+    public void setLIBPRDT(String LIBPRDT) {
+        this.LIBPRDT = LIBPRDT;
+    }
 
     @JsonProperty("CIN")
     public String getCIN() {
@@ -27,7 +40,7 @@ public class Contrat<S, O> {
     public Contrat() {
     }
 
-    public Contrat( String CIN ,String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT) {
+    public Contrat( String CIN ,String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT, String LIBPRDT) {
         this.CIN = CIN;
         this.NUMCNT = NUMCNT;
         this.CODPROD = CODPROD;
@@ -38,6 +51,7 @@ public class Contrat<S, O> {
         this.DEBCNT = DEBCNT;
         this.FINCNT = FINCNT;
         this.SITUAT = SITUAT;
+        this.LIBPRDT = LIBPRDT;
     }
 
     @JsonProperty("NUMCNT")

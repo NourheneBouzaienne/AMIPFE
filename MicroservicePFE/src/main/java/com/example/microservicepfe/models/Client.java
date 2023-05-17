@@ -45,6 +45,12 @@ public class Client extends User {
     private String typePers;
     private String numTel;
 
+
+    private Boolean isAuthentificated ;
+
+
+
+
     public String getNumTel() {
         return numTel;
     }

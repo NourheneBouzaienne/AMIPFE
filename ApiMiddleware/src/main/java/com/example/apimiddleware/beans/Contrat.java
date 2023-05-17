@@ -14,11 +14,23 @@ public class Contrat {
     private String NATCLT;
     private Long IDCLT;
     private Long IDDELEGA;
+    private  String LIBPRDT ;
+    @JsonProperty("LIBPRDT")
+
+    public String getLIBPRDT() {
+        return LIBPRDT;
+    }
+
+    @JsonProperty("LIBPRDT")
+
+    public void setLIBPRDT(String LIBPRDT) {
+        this.LIBPRDT = LIBPRDT;
+    }
 
     public Contrat() {
     }
 
-    public Contrat(String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT) {
+    public Contrat(String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT,String LIBPRDT) {
         this.NUMCNT = NUMCNT;
         this.CODPROD = CODPROD;
         this.FORMCNT = FORMCNT;
@@ -28,6 +40,7 @@ public class Contrat {
         this.DEBCNT = DEBCNT;
         this.FINCNT = FINCNT;
         this.SITUAT = SITUAT;
+        this.LIBPRDT =LIBPRDT;
     }
 
     @JsonProperty("NUMCNT")

@@ -2,7 +2,9 @@ package com.example.microservicepfe.web;
 
 
 import com.example.microservicepfe.beans.Contrat;
+import com.example.microservicepfe.dao.ClientRepository;
 import com.example.microservicepfe.dao.UserRepository;
+import com.example.microservicepfe.models.Client;
 import com.example.microservicepfe.models.User;
 import com.example.microservicepfe.proxies.MicroserviceContratProxy;
 import com.example.microservicepfe.security.services.UserDetailsImpl;
@@ -23,6 +25,8 @@ public class ClientController {
     private final MicroserviceContratProxy contratsProxy;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ClientRepository clientRepository;
 
     public ClientController(MicroserviceContratProxy contratsProxy){
         this.contratsProxy = contratsProxy;
@@ -56,28 +60,22 @@ public class ClientController {
         return ResponseEntity.ok(user);
     }
     @PostMapping("/updateProfile")
-    public ResponseEntity<?> updateProfile(@RequestBody User updatedUser, Authentication authentication) {
+    public ResponseEntity<Client> updateProfile(@RequestBody Client updatedUser, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        if (authentication == null) {
+        String username = userDetails.getUsername(); // Récupération CIN  de l'utilisateur
+        Client client = clientRepository.findClientByUsername(username);
+        if (client == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-
-        String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        //user.setAdresse(updatedUser.getAdresse());
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
-        //user.setNumTel(updatedUser.getNumTel());
-        user.setUsername(updatedUser.getUsername());
+        client.setAdresse(updatedUser.getAdresse());
+        client.setName(updatedUser.getName());
+        client.setEmail(updatedUser.getEmail());
+        client.setNumTel(updatedUser.getNumTel());
+        //user.setUsername(updatedUser.getUsername());
 
 
-        userRepository.save(user);
-
+        clientRepository.save(client);
         return ResponseEntity.ok().build();
     }
 }
