@@ -17,6 +17,16 @@ public class SignupRequest {
     private String numTel;
     private boolean enabled;
 
+    private boolean isAuthentificated;
+
+    public boolean isAuthentificated() {
+        return isAuthentificated;
+    }
+
+    public void setAuthentificated(boolean authentificated) {
+        isAuthentificated = authentificated;
+    }
+
     private String activationCode;
 
     public boolean isEnabled() {
@@ -45,9 +55,10 @@ public class SignupRequest {
 
     private Set<String> role;
 
-    public SignupRequest(String activationCode,boolean enabled,String name,String username, String email, String adresse, String typeIDNT, String typePers, Set<String> role,String numTel,String password) {
+    public SignupRequest(String activationCode,boolean enabled,boolean isAuthentificated,String name,String username, String email, String adresse, String typeIDNT, String typePers, Set<String> role,String numTel,String password) {
         this.activationCode = activationCode;
         this.enabled = enabled;
+        this.isAuthentificated =isAuthentificated;
         this.username = username;
         this.name = name;
         this.email = email;

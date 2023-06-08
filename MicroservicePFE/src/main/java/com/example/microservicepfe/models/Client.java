@@ -46,7 +46,8 @@ public class Client extends User {
     private String numTel;
 
 
-    private Boolean isAuthentificated ;
+
+
 
 
 
@@ -59,12 +60,13 @@ public class Client extends User {
         this.numTel = numTel;
     }
 
-    public Client(String activationCode, boolean enabled, String name, String username, String email, String adresse, String typeIDNT, String typePers, String numTel, String password) {
-        super(activationCode, enabled, name, username, email, password);
+    public Client(String activationCode, boolean enabled,boolean isAuthentificated, String name, String username, String email, String adresse, String typeIDNT, String typePers, String numTel, String password ) {
+        super(activationCode, enabled, name, username, email, password,isAuthentificated);
         this.adresse = adresse;
         this.typeIDNT = typeIDNT;
         this.typePers = typePers;
         this.numTel = numTel;
+
     }
 
 

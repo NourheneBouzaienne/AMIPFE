@@ -38,8 +38,15 @@ public class User {
     private String activationCode;
 
 
+    private boolean isAuthentificated;
 
+    public boolean isAuthentificated() {
+        return isAuthentificated;
+    }
 
+    public void setAuthentificated(boolean authentificated) {
+        isAuthentificated = authentificated;
+    }
 
     public String getName() {
         return name;
@@ -120,13 +127,14 @@ public class User {
         this.activationCode = activationCode;
     }
 
-    public User(String activationCode,boolean enabled,String name, String username, String email, String password) {
+    public User(String activationCode,boolean enabled,String name, String username, String email, String password, boolean isAuthentificated) {
         this.activationCode = activationCode;
         this.enabled = enabled;
         this.name=name;
         this.email = email;
         this.password = password;
         this.username =  username;
+        this.isAuthentificated = isAuthentificated ;
     }
 
 

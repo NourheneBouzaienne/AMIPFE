@@ -15,6 +15,114 @@ public class Contrat<S, O> {
     private String CIN;
     private String LIBPRDT;
 
+    private String FRACT;
+    private String NOM_INT;
+
+
+
+    private String LIBGRNT;
+
+    private String NOMCOMMERCIAL;
+
+    private String RESULT;
+
+    private String BULL;
+
+    private Long SOMME_PRIMGRNT;
+
+    private Long NBUNITLM;
+    private String UNTLIMIT;
+
+
+    @JsonProperty("NBUNITLM")
+    public Long getNBUNITLM() {
+        return NBUNITLM;
+    }
+
+
+    @JsonProperty("NBUNITLM")
+    public void setNBUNITLM(Long NBUNITLM) {
+        this.NBUNITLM = NBUNITLM;
+    }
+    @JsonProperty("UNTLIMIT")
+    public String getUNTLIMIT() {
+        return UNTLIMIT;
+    }
+    @JsonProperty("UNTLIMIT")
+    public void setUNTLIMIT(String UNTLIMIT) {
+        this.UNTLIMIT = UNTLIMIT;
+    }
+
+    @JsonProperty("SOMME_PRIMGRNT")
+    public Long getSOMME_PRIMGRNT() {
+        return SOMME_PRIMGRNT;
+    }
+
+
+    @JsonProperty("SOMME_PRIMGRNT")
+    public void setSOMME_PRIMGRNT(Long SOMME_PRIMGRNT) {
+        this.SOMME_PRIMGRNT = SOMME_PRIMGRNT;
+    }
+
+    @JsonProperty("BULL")
+    public String getBULL() {
+        return BULL;
+    }
+    @JsonProperty("BULL")
+    public void setBULL(String BULL) {
+        this.BULL = BULL;
+    }
+
+    @JsonProperty("RESULT")
+    public String getRESULT() {
+        return RESULT;
+    }
+    @JsonProperty("RESULT")
+    public void setRESULT(String RESULT) {
+        this.RESULT = RESULT;
+    }
+
+    @JsonProperty("NOMCOMMERCIAL")
+    public String getNOMCOMMERCIAL() {
+        return NOMCOMMERCIAL;
+    }
+
+    @JsonProperty("NOMCOMMERCIAL")
+    public void setNOMCOMMERCIAL(String NOMCOMMERCIAL) {
+        this.NOMCOMMERCIAL = NOMCOMMERCIAL;
+    }
+
+    @JsonProperty("LIBGRNT")
+    public String getLIBGRNT() {
+        return LIBGRNT;
+    }
+    @JsonProperty("LIBGRNT")
+    public void setLIBGRNT(String LIBGRNT) {
+        this.LIBGRNT = LIBGRNT;
+    }
+
+    @JsonProperty("NOM_INT")
+
+    public String getNOM_INT() {
+        return NOM_INT;
+    }
+
+    @JsonProperty("NOM_INT")
+    public void setNOM_INT(String NOM_INT) {
+        this.NOM_INT = NOM_INT;
+    }
+
+    @JsonProperty("FRACT")
+
+    public String getFRACT() {
+        return FRACT;
+    }
+
+
+    @JsonProperty("FRACT")
+    public void setFRACT(String FRACT) {
+        this.FRACT = FRACT;
+    }
 
     @JsonProperty("LIBPRDT")
 
@@ -40,7 +148,8 @@ public class Contrat<S, O> {
     public Contrat() {
     }
 
-    public Contrat( String CIN ,String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT, String LIBPRDT) {
+    public Contrat( String FRACT, String CIN ,String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT, String LIBPRDT, String NOM_INT, String NOMCOMMERCIAL,String RESULT,String BULL,Long SOMME_PRIMGRNT,Long NBUNITLM, String UNTLIMIT) {
+        this.FRACT = FRACT;
         this.CIN = CIN;
         this.NUMCNT = NUMCNT;
         this.CODPROD = CODPROD;
@@ -52,6 +161,14 @@ public class Contrat<S, O> {
         this.FINCNT = FINCNT;
         this.SITUAT = SITUAT;
         this.LIBPRDT = LIBPRDT;
+        this.NOM_INT = NOM_INT;
+        this.NOMCOMMERCIAL = NOMCOMMERCIAL;
+        this.RESULT = RESULT;
+        this.BULL = BULL;
+        this.SOMME_PRIMGRNT = SOMME_PRIMGRNT;
+        this.NBUNITLM= NBUNITLM;
+        this.UNTLIMIT =UNTLIMIT;
+
     }
 
     @JsonProperty("NUMCNT")

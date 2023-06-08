@@ -8,15 +8,25 @@ public class JwtResponse {
     private Long id;
     private String username;
     private String email;
+    private boolean isAuthentificated ;
+
+    public boolean isAuthentificated() {
+        return isAuthentificated;
+    }
+
+    public void setAuthentificated(boolean authentificated) {
+        isAuthentificated = authentificated;
+    }
 
     private List<String> roles;
 
 
-    public JwtResponse(String accessToken, Long id, String username, String email,List<String> roles) {
+    public JwtResponse(String accessToken, Long id, String username, String email,boolean isAuthentificated,List<String> roles ) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.email = email;
+        this.isAuthentificated = isAuthentificated;
         this.roles = roles;
 
     }

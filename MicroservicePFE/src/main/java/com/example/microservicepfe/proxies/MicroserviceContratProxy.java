@@ -5,9 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @FeignClient(name = "ApiMiddleware", url = "localhost:8090")
 public interface MicroserviceContratProxy {
@@ -21,6 +20,18 @@ public interface MicroserviceContratProxy {
 
     @GetMapping(value = "Contrat/listContratsClients")
      List<Contrat> getContratsClient(@RequestParam String CIN, @RequestParam String numCNT) ;
+
+
+    @GetMapping(value = "Contrat/listContratsByClients")
+    List<Contrat> getContratsByClient(@RequestParam String CIN) ;
+
+    @GetMapping(value = "Contrat/getContratByNUMCNT")
+    Optional<Contrat> getContratByNUMCNT(@RequestParam String CIN,@RequestParam String numCNT) ;
+
+    @GetMapping(value = "Contrat/getGRNTByNUMCNT")
+    List<Contrat> getGRNTByCNTclient(@RequestParam String CIN,@RequestParam String numCNT) ;
+
+
 
 
 

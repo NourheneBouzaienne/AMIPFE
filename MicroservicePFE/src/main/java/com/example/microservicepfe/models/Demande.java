@@ -15,16 +15,27 @@ public class Demande {
     private String object;
     private String description;
 
+    private String categ;
+
+    public String getCateg() {
+        return categ;
+    }
+
+    public void setCateg(String categ) {
+        this.categ = categ;
+    }
+
     public String getEtat() {
         return etat;
     }
 
-    public Demande(Long id, String object, String description, String etat, Date dateCreation, User user) {
+    public Demande(Long id, String object, String description, String etat, Date dateCreation,String categ, User user) {
         this.id = id;
         this.object = object;
         this.description = description;
         this.etat = etat;
         this.dateCreation = dateCreation;
+        this.categ = categ;
         this.user = user;
     }
 
@@ -35,7 +46,7 @@ public class Demande {
     private String etat;
 
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "date_creation")
     private Date dateCreation;
 
