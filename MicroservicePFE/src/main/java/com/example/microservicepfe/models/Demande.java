@@ -17,6 +17,16 @@ public class Demande {
 
     private String categ;
 
+    private String reponse;
+
+    public String getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(String reponse) {
+        this.reponse = reponse;
+    }
+
     public String getCateg() {
         return categ;
     }
@@ -29,7 +39,7 @@ public class Demande {
         return etat;
     }
 
-    public Demande(Long id, String object, String description, String etat, Date dateCreation,String categ, User user) {
+    public Demande(Long id, String object, String description, String etat, Date dateCreation,String categ, User user, String reponse) {
         this.id = id;
         this.object = object;
         this.description = description;
@@ -37,6 +47,8 @@ public class Demande {
         this.dateCreation = dateCreation;
         this.categ = categ;
         this.user = user;
+        this.reponse = reponse;
+
     }
 
     public void setEtat(String etat) {

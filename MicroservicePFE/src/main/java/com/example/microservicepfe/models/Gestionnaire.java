@@ -9,4 +9,10 @@ import javax.persistence.*;
 public class Gestionnaire extends User {
 
 
+    public Gestionnaire(String activationCode, boolean enabled, String name, String username, String email, String password) {
+        super(activationCode, enabled, name, username, email, password);
+    }
+
+    public Gestionnaire() {
+    }
 }

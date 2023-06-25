@@ -2,10 +2,7 @@ package com.example.microservicepfe.web;
 
 import com.example.microservicepfe.dao.RoleRepository;
 import com.example.microservicepfe.dao.UserRepository;
-import com.example.microservicepfe.models.Client;
-import com.example.microservicepfe.models.ERole;
-import com.example.microservicepfe.models.Role;
-import com.example.microservicepfe.models.User;
+import com.example.microservicepfe.models.*;
 import com.example.microservicepfe.payload.request.LoginRequest;
 import com.example.microservicepfe.payload.request.SignupRequest;
 import com.example.microservicepfe.payload.response.JwtResponse;
@@ -217,5 +214,104 @@ public class AuthController {
     }
 
     // Méthode pour envoyer un e-mail d'activation
+
+
+    @PostMapping("/signinGest")
+    public ResponseEntity<?> authenticateGestionnaire(@Validated @RequestBody LoginRequest loginRequest) {
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    userDetails.isAuthentificated(),
+                    roles));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Veuillez vérifier votre identifiant et / ou mot de passe");
+        }
+    }
+
+    @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+    @PostMapping("/registerGest")
+    public ResponseEntity<?> registerGestionnaire(@Validated @RequestBody SignupRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        String activationCode = UUID.randomUUID().toString();
+        // Create new user's account
+        User user = new Gestionnaire(
+                signUpRequest.getActivationCode(),
+                signUpRequest.isEnabled(),
+                signUpRequest.getName(),
+                signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword())
+        );
+
+        user.setEnabled(false);
+        user.setAuthentificated(false);
+        user.setActivationCode(activationCode);
+
+        Set<String> strRoles = signUpRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_CLIENT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "gestionnaire":
+                        Role gestionnaireRole = roleRepository.findByName(ERole.ROLE_GESTIONNAIRE)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(gestionnaireRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByName(ERole.ROLE_CLIENT)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+
+        user.setRoles(roles);
+        userRepository.save(user);
+        // Envoyez un e-mail d'activation au nouvel utilisateur
+        // String activationLink = "http://localhost:8060/activate/" + activationCode;
+        //Envoyer un code d'activation
+        String activationLink =  activationCode;
+
+        emailService.sendActivationEmail(user.getEmail(), activationLink);
+
+        return ResponseEntity.ok("Un e-mail d'activation a été envoyé à votre adresse e-mail.");
+    }
 
 }

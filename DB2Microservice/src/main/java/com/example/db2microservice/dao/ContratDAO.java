@@ -55,6 +55,26 @@ public class ContratDAO {
         );
     }
 
+    public List<Map<String, Object>> SinistreByID(String cin) {
+        return jdbcTemplate.queryForList(
+                "SELECT I.NOM1 AS NOM_INT, T.*" +
+                        "    FROM ISAMMDATA.PETB01 AS I" +
+                        "         JOIN (" +
+                        "                 SELECT *" +
+                        "                     FROM ISAMMDATA.PETB01 AS P" +
+                        "                          JOIN ISAMMDATA.SITB01 AS S" +
+                        "                              ON S.NATCLT = P.CNAT" +
+                        "                                  AND S.IDCLT = P.NUMPERS" +
+                        "                          JOIN ISAMMDATA.PR002 AS PR" +
+                        "                              ON S.CODPROD = PR.CODPROD" +
+                        "                     WHERE P.ID = ? " +
+                        "             ) AS T" +
+                        "             ON I.CNAT = 'AG'" +
+                        "                 AND I.NUMPERS = T.IDINT",
+                cin
+        );
+    }
+
 
 
 

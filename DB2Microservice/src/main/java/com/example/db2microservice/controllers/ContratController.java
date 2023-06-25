@@ -31,6 +31,11 @@ public class ContratController {
         return contratDAO.findByID(CIN);
     }
 
+    @GetMapping("/listSinistresByClients")
+    public List<Map<String, Object>> SinistresByClients(@RequestParam String CIN) {
+        return contratDAO.SinistreByID(CIN);
+    }
+
     @GetMapping("/getContartByNUM")
     public Optional<Map<String, Object>> getContratByNUM(@RequestParam String numCNT) {
         return contratDAO.findByNUMCNT(numCNT);

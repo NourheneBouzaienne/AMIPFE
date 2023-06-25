@@ -40,6 +40,16 @@ public class User {
 
     private boolean isAuthentificated;
 
+    public User(String activationCode, boolean enabled, String name, String username, String email, String password) {
+        this.activationCode = activationCode;
+        this.enabled = enabled;
+        this.name=name;
+        this.username =  username;
+        this.email = email;
+        this.password = password;
+
+    }
+
     public boolean isAuthentificated() {
         return isAuthentificated;
     }
