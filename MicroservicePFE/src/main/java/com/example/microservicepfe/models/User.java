@@ -39,13 +39,34 @@ public class User {
 
 
     private boolean isAuthentificated;
+    private String numTel;
 
-    public User(String activationCode, boolean enabled, String name, String username, String email, String password) {
+    public User(String activationCode, boolean enabled, String name, String username, String email, String numTel,  boolean isAuthentificated,String password) {
         this.activationCode = activationCode;
         this.enabled = enabled;
         this.name=name;
         this.username =  username;
         this.email = email;
+        this.numTel = numTel;
+        this.isAuthentificated =isAuthentificated;
+        this.password = password;
+    }
+
+    public String getNumTel() {
+        return numTel;
+    }
+
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
+    }
+
+    public User(String activationCode, boolean enabled, String name, String username, String email,String numTel, String password) {
+        this.activationCode = activationCode;
+        this.enabled = enabled;
+        this.name=name;
+        this.username =  username;
+        this.email = email;
+        this.numTel = numTel;
         this.password = password;
 
     }

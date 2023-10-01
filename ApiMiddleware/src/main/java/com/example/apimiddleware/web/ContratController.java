@@ -1,6 +1,7 @@
 package com.example.apimiddleware.web;
 
 import com.example.apimiddleware.beans.Contrat;
+import com.example.apimiddleware.beans.Sinistre;
 import com.example.apimiddleware.proxies.MicroserviceContratProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +35,20 @@ public class ContratController {
     }
 
 
+    @GetMapping("/listContratSinistreByID")
+    public List<Contrat> geContratSinistreByID(@RequestParam String CIN) {
+        List<Contrat> contratsClient =   contratsProxy.ContratSinistreByID(CIN) ;
+        return contratsClient ;
+    }
+
+
     @GetMapping("/listContratsByClients")
     public List<Contrat> getContratsByClient(@RequestParam String CIN) {
         List<Contrat> contratsClient =   contratsProxy.ContratsByClient(CIN);
         return contratsClient ;
     }
+
+
 
     @GetMapping("/getContratByNUMCNT")
     public ResponseEntity<Contrat>  getContratByNumCNT(@RequestParam String numCNT) {
@@ -58,10 +68,26 @@ public class ContratController {
         List<Contrat> garanties =   contratsProxy.GarantiesByCNT(numCNT);
         return  garanties ;
     }
+    @GetMapping("/proposeGarantie")
+    public List<Contrat> proposeGarantie(@RequestParam String numCNT) {
+        List<Contrat> garanties =   contratsProxy.proposeGarantie(numCNT);
+        return  garanties ;
+    }
+    @GetMapping("/listSinsitresByClients")
+    public List<Sinistre> getSinistresByClient(@RequestParam String CIN) {
+        List<Sinistre> sinistresClient =   contratsProxy.SinistresByClient(CIN);
+        return sinistresClient ;
+    }
+    @GetMapping("/getRemorquage")
+    public ResponseEntity<Contrat>  getRemorquage(@RequestParam String numCNT) {
+        Optional<Contrat> contratByNUMCNTOptional =   contratsProxy.remorquageSinistre(numCNT);
 
-
-
-
-
+        if (contratByNUMCNTOptional.isPresent()) {
+            Contrat contrat = contratByNUMCNTOptional.get();
+            return new ResponseEntity<>(contrat, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

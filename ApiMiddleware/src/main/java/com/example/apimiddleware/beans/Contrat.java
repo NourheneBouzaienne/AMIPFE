@@ -26,11 +26,34 @@ public class Contrat {
     private String RESULT;
 
     private String BULL;
-    private Long SOMME_PRIMGRNT;
+    private Float SOMME_PRIMGRNT;
 
     private Long NBUNITLM;
     private String UNTLIMIT;
 
+    private String DEBEFFET;
+    private String FINEFFET;
+
+
+
+    @JsonProperty("DEBEFFET")
+    public String getDEBEFFET() {
+        return DEBEFFET;
+    }
+
+    @JsonProperty("DEBEFFET")
+    public void setDEBEFFET(String DEBEFFET) {
+        this.DEBEFFET = DEBEFFET;
+    }
+
+    @JsonProperty("FINEFFET")
+    public String getFINEFFET() {
+        return FINEFFET;
+    }
+    @JsonProperty("FINEFFET")
+    public void setFINEFFET(String FINEFFET) {
+        this.FINEFFET = FINEFFET;
+    }
 
     @JsonProperty("NBUNITLM")
     public Long getNBUNITLM() {
@@ -52,12 +75,12 @@ public class Contrat {
     }
 
     @JsonProperty("SOMME_PRIMGRNT")
-    public Long getSOMME_PRIMGRNT() {
+    public Float getSOMME_PRIMGRNT() {
         return SOMME_PRIMGRNT;
     }
 
     @JsonProperty("SOMME_PRIMGRNT")
-    public void setSOMME_PRIMGRNT(Long SOMME_PRIMGRNT) {
+    public void setSOMME_PRIMGRNT(Float SOMME_PRIMGRNT) {
         this.SOMME_PRIMGRNT = SOMME_PRIMGRNT;
     }
 
@@ -135,26 +158,28 @@ public class Contrat {
     public Contrat() {
     }
 
-    public Contrat(String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String DEBCNT, String FINCNT, String SITUAT,String LIBPRDT, String FRACT,String NOM_INT, String LIBGRNT,String NOMCOMMERCIAL,String RESULT, String BULL, Long SOMME_PRIMGRNT, Long NBUNITLM, String UNTLIMIT) {
+    public Contrat(String NUMCNT, Long CODPROD, String FORMCNT, String NATCLT, Long IDCLT, Long IDDELEGA, String LIBPRDT, String FRACT, String NOM_INT, String LIBGRNT, String NOMCOMMERCIAL, String RESULT, String BULL, Float SOMME_PRIMGRNT, Long NBUNITLM, String UNTLIMIT, String DEBEFFET, String FINEFFET, String DEBCNT, String FINCNT, String SITUAT) {
         this.NUMCNT = NUMCNT;
         this.CODPROD = CODPROD;
         this.FORMCNT = FORMCNT;
         this.NATCLT = NATCLT;
         this.IDCLT = IDCLT;
         this.IDDELEGA = IDDELEGA;
+        this.LIBPRDT = LIBPRDT;
+        this.FRACT = FRACT;
+        this.NOM_INT = NOM_INT;
+        this.LIBGRNT = LIBGRNT;
+        this.NOMCOMMERCIAL = NOMCOMMERCIAL;
+        this.RESULT = RESULT;
+        this.BULL = BULL;
+        this.SOMME_PRIMGRNT = SOMME_PRIMGRNT;
+        this.NBUNITLM = NBUNITLM;
+        this.UNTLIMIT = UNTLIMIT;
+        this.DEBEFFET = DEBEFFET;
+        this.FINEFFET = FINEFFET;
         this.DEBCNT = DEBCNT;
         this.FINCNT = FINCNT;
         this.SITUAT = SITUAT;
-        this.LIBPRDT =LIBPRDT;
-        this.FRACT =FRACT;
-        this.NOM_INT= NOM_INT;
-        this.LIBGRNT =LIBGRNT;
-        this.NOMCOMMERCIAL =NOMCOMMERCIAL;
-        this.RESULT =RESULT;
-        this.BULL =BULL;
-        this.SOMME_PRIMGRNT = SOMME_PRIMGRNT;
-        this.NBUNITLM= NBUNITLM;
-        this.UNTLIMIT =UNTLIMIT;
     }
 
     @JsonProperty("NUMCNT")

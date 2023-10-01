@@ -12,7 +12,17 @@ public class Sinistre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CLIENT_id", nullable = false)
+    private User user;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -38,6 +48,8 @@ public class Sinistre {
 
     public Sinistre() {
     }
+
+
 
     public Date getDate() {
         return date;

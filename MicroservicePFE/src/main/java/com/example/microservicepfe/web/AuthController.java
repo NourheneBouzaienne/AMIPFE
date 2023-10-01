@@ -13,7 +13,6 @@ import com.example.microservicepfe.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -265,6 +264,7 @@ public class AuthController {
                 signUpRequest.getName(),
                 signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
+                signUpRequest.getNumTel(),
                 encoder.encode(signUpRequest.getPassword())
         );
 
@@ -312,6 +312,32 @@ public class AuthController {
         emailService.sendActivationEmail(user.getEmail(), activationLink);
 
         return ResponseEntity.ok("Un e-mail d'activation a été envoyé à votre adresse e-mail.");
+    }
+
+    @PostMapping("/signinAdmin")
+    public ResponseEntity<?> authenticateAdmin(@Validated @RequestBody LoginRequest loginRequest) {
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    userDetails.isAuthentificated(),
+                    roles));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Veuillez vérifier votre identifiant et / ou mot de passe");
+        }
     }
 
 }

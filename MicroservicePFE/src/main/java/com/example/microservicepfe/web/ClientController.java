@@ -5,9 +5,8 @@ import com.example.microservicepfe.beans.Contrat;
 import com.example.microservicepfe.dao.ClientRepository;
 import com.example.microservicepfe.dao.UserRepository;
 import com.example.microservicepfe.models.Client;
-import com.example.microservicepfe.models.Demande;
 import com.example.microservicepfe.models.User;
-import com.example.microservicepfe.proxies.MicroserviceContratProxy;
+import com.example.microservicepfe.proxies.MiddlewareProxy;
 import com.example.microservicepfe.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,24 +24,33 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/auth/Client")
 public class ClientController {
-    private final MicroserviceContratProxy contratsProxy;
+    private final MiddlewareProxy middlewareProxy;
     @Autowired
     UserRepository userRepository;
     @Autowired
     ClientRepository clientRepository;
 
-    public ClientController(MicroserviceContratProxy contratsProxy){
-        this.contratsProxy = contratsProxy;
+    public ClientController(MiddlewareProxy middlewareProxy) {
+        this.middlewareProxy = middlewareProxy;
     }
+
     @RequestMapping("/Contrats")
-    List<Contrat>  contrat (){List<Contrat> contrats =  contratsProxy.listeDesContrats();
+    List<Contrat>  contrat (){List<Contrat> contrats =  middlewareProxy.listeDesContrats();
         return  contrats;
     }
     @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
     @GetMapping("/ContratsClientV1")
     List<Contrat> getContratsClient( @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam String numCNT) {
         String CIN = userDetails.getUsername(); // Récupération CIN  de l'utilisateur
-        List<Contrat> contratsClient =   contratsProxy.getContratsClient(CIN, numCNT) ;
+        List<Contrat> contratsClient =   middlewareProxy.getContratsClient(CIN, numCNT) ;
+
+        return contratsClient ;
+    }
+
+    @GetMapping("/ContratsSinistre")
+    List<Contrat> getContratsSinistre( @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String CIN = userDetails.getUsername(); // Récupération CIN  de l'utilisateur
+        List<Contrat> contratsClient =   middlewareProxy.ContratSinistreByID(CIN) ;
 
         return contratsClient ;
     }
@@ -53,13 +61,29 @@ public class ClientController {
 
         //User client = userRepository.findUserByUsername(CIN);
 
-        Optional<Contrat> contratByNUMCNTOptional =  contratsProxy.getContratByNUMCNT(CIN,numCNT);
+        Optional<Contrat> contratByNUMCNTOptional =  middlewareProxy.getContratByNUMCNT(CIN,numCNT);
 
         if (contratByNUMCNTOptional.isPresent()) {
             Contrat contrat = contratByNUMCNTOptional.get();
             return new ResponseEntity<>(contrat, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @GetMapping("/getRemorquage")
+    public ResponseEntity<Boolean> getRemorquage (@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestParam String numCNT) {
+        String CIN = userDetails.getUsername(); // Récupération CIN  de l'utilisateur
+
+        //User client = userRepository.findUserByUsername(CIN);
+
+        Optional<Contrat> contratByNUMCNTOptional = middlewareProxy.getRemorquage(numCNT);
+
+        if (contratByNUMCNTOptional.isPresent()) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(false, HttpStatus.OK);
         }
     }
 
@@ -71,7 +95,7 @@ public class ClientController {
         User client = userRepository.findUserByUsername(CIN);
 
 
-        List<Contrat> contratsClient =   contratsProxy.getContratsClient(CIN, numCNT) ;
+        List<Contrat> contratsClient =   middlewareProxy.getContratsClient(CIN, numCNT) ;
 
         if (client != null && !client.isAuthentificated() && contratsClient!= null ) {
             client.setAuthentificated(true);
@@ -84,7 +108,14 @@ public class ClientController {
     List<Contrat> getGRNTByNUMCNT( @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam String numCNT) {
         String CIN = userDetails.getUsername(); // Récupération CIN  de l'utilisateur
         //User client = userRepository.findUserByUsername(CIN);
-        List<Contrat> garanties =   contratsProxy.getGRNTByCNTclient(CIN, numCNT) ;
+        List<Contrat> garanties =   middlewareProxy.getGRNTByCNTclient(CIN, numCNT) ;
+        return garanties ;
+    }
+    @GetMapping("/proposeGarantie")
+    List<Contrat> proposeGarantie(@RequestParam String numCNT) {
+        //String CIN = userDetails.getUsername(); // Récupération CIN  de l'utilisateur
+        //User client = userRepository.findUserByUsername(CIN);
+        List<Contrat> garanties =   middlewareProxy.proposeGarantie(numCNT) ;
         return garanties ;
     }
 
@@ -97,7 +128,7 @@ public class ClientController {
         List<Contrat> contratsClient;
 
         if (client != null && client.isAuthentificated()) {
-            contratsClient = contratsProxy.getContratsByClient(CIN);
+            contratsClient = middlewareProxy.getContratsByClient(CIN);
         } else {
             contratsClient = new ArrayList<>(); // Liste vide
         }

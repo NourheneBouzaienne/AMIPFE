@@ -43,7 +43,6 @@ public class Client extends User {
     private String adresse;
     private String typeIDNT;
     private String typePers;
-    private String numTel;
 
 
 
@@ -52,22 +51,22 @@ public class Client extends User {
 
 
 
-    public String getNumTel() {
-        return numTel;
-    }
 
-    public void setNumTel(String numTel) {
-        this.numTel = numTel;
-    }
 
-    public Client(String activationCode, boolean enabled,boolean isAuthentificated, String name, String username, String email, String adresse, String typeIDNT, String typePers, String numTel, String password ) {
+    /*public Client(String activationCode, boolean enabled,boolean isAuthentificated, String name, String username, String email, String adresse, String typeIDNT, String typePers, String numTel, String password ) {
         super(activationCode, enabled, name, username, email, password,isAuthentificated);
         this.adresse = adresse;
         this.typeIDNT = typeIDNT;
         this.typePers = typePers;
         this.numTel = numTel;
 
+    }*/
+
+    public Client(String activationCode, boolean enabled,boolean isAuthentificated, String name, String username, String email,String adresse,  String typeIDNT,  String typePers, String numTel,String password) {
+        super(activationCode, enabled, name, username, email,numTel,isAuthentificated, password);
+        this.adresse = adresse;
+        this.typeIDNT = typeIDNT;
+        this.typePers = typePers;
+
     }
-
-
 }

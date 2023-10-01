@@ -60,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/password-reset/request").permitAll()
                 .antMatchers("/api/password-reset/reset").permitAll()
+                .antMatchers("/api/Gestionnaire/**").authenticated() // Exiger l'authentification pour les endpoints de GestionnaireController
+                .antMatchers("/api/Admin/**").authenticated()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

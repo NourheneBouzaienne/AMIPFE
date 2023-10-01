@@ -7,12 +7,9 @@ import com.example.microservicepfe.models.Demande;
 import com.example.microservicepfe.models.User;
 import com.example.microservicepfe.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +39,9 @@ public class DemandeController {
     @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 
     @PostMapping("/addDemande")
-    public Demande addDemande(@RequestBody Demande demande) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username);
+    public Demande addDemande(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody Demande demande) {
+        String CIN = userDetails.getUsername();
+        User user = userRepository.findUserByUsername(CIN);
         demande.setUser(user);
         return demandeRepository.save(demande);
     }

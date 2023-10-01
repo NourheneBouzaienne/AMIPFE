@@ -6,6 +6,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.example.microservicepfe.dao.ConstatRepository;
 import com.example.microservicepfe.dao.PhotoSinistreRepository;
 import com.example.microservicepfe.dao.SinistreRepository;
+import com.example.microservicepfe.models.Client;
 import com.example.microservicepfe.models.Constat;
 import com.example.microservicepfe.models.PhotoSinistre;
 import com.example.microservicepfe.models.Sinistre;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SinistreServiceImpl implements SinistreService {
@@ -80,6 +78,26 @@ public class SinistreServiceImpl implements SinistreService {
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
 
         return uploadResult.get("secure_url").toString();
+    }
+
+    @Override
+    public List<Sinistre> getAllSinistres() {
+        return sinistreRepository.findAll();
+    }
+
+    @Override
+    public Optional<Sinistre> getSinistreById(Long id) {
+        return sinistreRepository.findById(id);
+    }
+
+    @Override
+    public Sinistre updateSinistre(Sinistre client) {
+        return sinistreRepository.save(client);
+    }
+
+    @Override
+    public void deleteSinistreById(Long id) {
+        sinistreRepository.deleteById(id);
     }
 
 }

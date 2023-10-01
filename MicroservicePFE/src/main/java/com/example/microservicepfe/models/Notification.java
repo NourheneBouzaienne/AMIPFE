@@ -16,6 +16,15 @@ public class Notification {
     private Long id;
     private String contenu;
 
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -45,9 +54,10 @@ public class Notification {
         this.user = user;
     }
 
-    public Notification(Long id, String contenu, User user) {
+    public Notification(Long id, String contenu, String title,User user) {
         this.id = id;
         this.contenu = contenu;
+        this.title= title;
         this.user = user;
     }
 

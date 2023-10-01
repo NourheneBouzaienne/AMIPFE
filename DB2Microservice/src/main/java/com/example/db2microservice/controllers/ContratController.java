@@ -31,9 +31,10 @@ public class ContratController {
         return contratDAO.findByID(CIN);
     }
 
-    @GetMapping("/listSinistresByClients")
-    public List<Map<String, Object>> SinistresByClients(@RequestParam String CIN) {
-        return contratDAO.SinistreByID(CIN);
+
+    @GetMapping("/listContratSinistreByID")
+    public List<Map<String, Object>>  ContratSinistreBYID(@RequestParam String CIN) {
+        return contratDAO. ContratSinistreBYID(CIN);
     }
 
     @GetMapping("/getContartByNUM")
@@ -44,5 +45,14 @@ public class ContratController {
     @GetMapping("/getGRNTByNUMCNT")
     public List<Map<String, Object>> getGRNTByNUMCNT(@RequestParam String numCNT) {
         return contratDAO.findGRNTByNUMCNT(numCNT);
+    }
+
+    @GetMapping("/remorquage")
+    public Optional<Map<String, Object>> getGarantieremorguage(@RequestParam String numCNT) {
+        return contratDAO.remorquageSinistre(numCNT);
+    }
+    @GetMapping("/proposeGarantie")
+    public List<Map<String, Object>> proposeGaranties(@RequestParam String numCNT) {
+        return contratDAO.proposeGaranties(numCNT);
     }
 }
